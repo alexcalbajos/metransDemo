@@ -1,0 +1,65 @@
+<div class="table-container mat-elevation-z8">
+  <h1>Articles List</h1>
+
+  <mat-form-field class="search-field">
+    <mat-label>Search Article</mat-label>
+    <input matInput
+      [formControl]="filterControl">
+    <button *ngIf="filterControl.value?.length"
+      mat-icon-button
+      matSuffix
+      (click)="filterControl.setValue('')">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <table mat-table
+    matSort
+    [dataSource]="articlesDataSource">
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header>Title</th>
+      <td mat-cell
+        *matCellDef="let article">{{ article.title }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="author">
+      <th mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header>Author</th>
+      <td mat-cell
+        *matCellDef="let article">{{ article.author }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="created-at">
+      <th mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header>Created At</th>
+      <td mat-cell
+        *matCellDef="let article"> {{ article.createdAt | date:'shortDate' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="comments">
+      <th mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header>Comments</th>
+      <td mat-cell
+        *matCellDef="let article">{{ article.comments }}</td>
+    </ng-container>
+
+    <tr mat-header-row
+      *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row
+      *matRowDef="let article; columns: displayedColumns;"
+      class="clickable"
+      (click)="editArticle(article)"></tr>
+  </table>
+
+  <mat-paginator [pageSize]="25"
+    [pageSizeOptions]="[25, 50, 100]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>
