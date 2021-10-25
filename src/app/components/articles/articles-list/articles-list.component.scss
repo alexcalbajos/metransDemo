@@ -1,0 +1,38 @@
+:host {
+  display: grid;
+  gap: 12px;
+
+  .table-header {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
+    gap: 64px;
+  }
+
+  table {
+    .mat-column-title,
+    .mat-column-author {
+      width: 35%;
+    }
+
+    .mat-column-actions {
+      width: 50px;
+
+      button {
+        float: right;
+
+        mat-icon {
+          color: rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
+
+    .clickable {
+      cursor: pointer;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.04);
+      }
+    }
+  }
+}

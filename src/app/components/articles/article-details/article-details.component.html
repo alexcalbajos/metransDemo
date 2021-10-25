@@ -1,0 +1,55 @@
+<ng-container *ngIf="articleForm; else spinner">
+  <h1>{{ existingArticle ? 'Edit Article' : 'Add Article' }}</h1>
+
+  <form [formGroup]="articleForm"
+    (ngSubmit)="submitForm()">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput
+        formControlName="title">
+      <mat-error *ngIf="articleForm.controls.title.invalid">Title Required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Author</mat-label>
+      <input matInput
+        formControlName="author">
+      <mat-error *ngIf="articleForm.controls.author.invalid">Author Required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="content-field">
+      <mat-label>Content</mat-label>
+      <textarea matInput
+        formControlName="content"
+        rows="16"
+        [matTextareaAutosize]="true"></textarea>
+      <mat-error *ngIf="articleForm.controls.content.invalid">Content Required</mat-error>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button mat-flat-button
+        type="button"
+        (click)="cancel()">
+        Cancel
+      </button>
+      <button mat-flat-button
+        color="primary"
+        [disabled]="submitLoading">
+        Save
+      </button>
+    </div>
+  </form>
+
+  <ng-container *ngIf="existingArticle?.comments?.length">
+    <h1 class="comments-title">Article Comments</h1>
+
+    <div class="comments">
+      <app-comment-card *ngFor="let comment of existingArticle.comments"
+        [comment]="comment"></app-comment-card>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #spinner>
+  <mat-spinner [diameter]="45"></mat-spinner>
+</ng-template>

@@ -2,7 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { ArticlesListComponent } from './components/articles-list/articles-list.component';
+import {
+    ArticleDetailsComponent
+} from './components/articles/article-details/article-details.component';
+import { ArticlesListComponent } from './components/articles/articles-list/articles-list.component';
+import { ArticlesComponent } from './components/articles/articles.component';
 
 const routes: Routes = [
   {
@@ -16,9 +20,24 @@ const routes: Routes = [
       },
       {
         path: 'articles',
-        component: ArticlesListComponent
+        component: ArticlesComponent,
+        children: [
+          {
+            path: '',
+            component: ArticlesListComponent
+          },
+          {
+            path: ':id',
+            component: ArticleDetailsComponent
+          }
+        ]
       }
     ]
+  },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full'
   }
 ];
 

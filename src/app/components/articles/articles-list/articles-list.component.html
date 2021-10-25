@@ -1,0 +1,88 @@
+<h1>Articles List</h1>
+
+<div class="table-header">
+  <mat-form-field class="search-field">
+    <mat-label>Search Article</mat-label>
+    <input matInput
+      [formControl]="filterControl">
+    <button *ngIf="filterControl.value?.length"
+      mat-icon-button
+      matSuffix
+      (click)="filterControl.setValue('')">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <button mat-fab
+    color="primary"
+    (click)="goToArticleDetails()">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<table mat-table
+  matSort
+  [dataSource]="articlesDataSource">
+
+  <ng-container matColumnDef="title">
+    <th mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header>Title</th>
+    <td mat-cell
+      *matCellDef="let article">{{ article.title }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="author">
+    <th mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header>Author</th>
+    <td mat-cell
+      *matCellDef="let article">{{ article.author }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="created-at">
+    <th mat-header-cell
+      *matHeaderCellDef>Created At</th>
+    <td mat-cell
+      *matCellDef="let article"> {{ article.createdAt | date:'shortDate' }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="comments">
+    <th mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header>Comments</th>
+    <td mat-cell
+      *matCellDef="let article">{{ article.comments.length }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell
+      *matHeaderCellDef></th>
+    <td mat-cell
+      *matCellDef="let article">
+      <button mat-icon-button
+        matSuffix
+        [disabled]="article.deleteLoading"
+        (click)="$event.stopPropagation(); removeArticle(article)">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row
+    *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row
+    *matRowDef="let article; columns: displayedColumns;"
+    class="clickable"
+    (click)="goToArticleDetails(article)"></tr>
+</table>
+
+<mat-spinner [diameter]="45"
+  *ngIf="!allArticles"></mat-spinner>
+
+<mat-paginator [pageSize]="25"
+  [pageSizeOptions]="[25, 50, 100]"
+  [disabled]="!allArticles"
+  showFirstLastButtons
+  aria-label="Select page of periodic elements">
+</mat-paginator>
